@@ -71,7 +71,7 @@ public class CSVReader_Writer {
         List<String> names = null;
         BufferedReader reader = null;
 
-        try{
+        try {
                 reader = Files.newBufferedReader(Paths.get("lastnames.txt"));
                 names = reader.lines()
                 .flatMap(line -> Stream.of(line.split(",")))

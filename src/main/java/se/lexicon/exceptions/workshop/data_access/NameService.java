@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
+import se.lexicon.exceptions.workshop.Exception.Class.DuplicateNameException;
 import se.lexicon.exceptions.workshop.domain.Gender;
 import se.lexicon.exceptions.workshop.domain.Person;
 import se.lexicon.exceptions.workshop.fileIO.CSVReader_Writer;
@@ -62,11 +63,20 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param name
 	     */
-	    public void addFemaleFirstName(String name) throws IOException {
-	    	femaleFirstNames.add(name);
-	    	CSVReader_Writer.saveFemaleNames(femaleFirstNames);
-	    		
-	    }
+	    public void addFemaleFirstName(String name) throws DuplicateNameException {
+            if (femaleFirstNames.contains(name)) {
+                throw new DuplicateNameException("Duplicate name: " + name);
+            }
+            femaleFirstNames.add(name);
+
+            try {
+                CSVReader_Writer.saveFemaleNames(femaleFirstNames);
+            } catch (IOException e) {
+                System.out.println("Error while saving female names");
+            }
+
+
+        }
 
 	    /**
 	     * Here you need to check if List<String> maleFirstNames already contains the name
@@ -74,9 +84,17 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param name
 	     */
-	    public void addMaleFirstName(String name) throws IOException {
-	    	maleFirstNames.add(name);
-	        CSVReader_Writer.saveMaleNames(maleFirstNames);
+	    public void addMaleFirstName(String name) throws DuplicateNameException {
+	    	if (maleFirstNames.contains(name)) {
+                throw new DuplicateNameException(name + "is duplicate");
+            }
+            maleFirstNames.add(name);
+
+            try {
+                CSVReader_Writer.saveMaleNames(maleFirstNames);
+            } catch (IOException e) {
+                System.out.println("Error while saving male names");
+            }
 	    }
 
 	    /**
@@ -85,9 +103,17 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param lastName
 	     */
-	    public void addLastName(String lastName) throws IOException {
-	    	lastNames.add(lastName);
-	        CSVReader_Writer.saveLastNames(lastNames);
+	    public void addLastName(String lastName) throws DuplicateNameException {
+	    	if (lastNames.contains(lastName)) {
+                throw new DuplicateNameException(lastName + "is duplicate");
+            }
+            lastNames.add(lastName);
+
+            try {
+                CSVReader_Writer.saveLastNames(lastNames);
+            } catch (IOException e) {
+                System.out.println("Error while saving last names");
+            }
 	    }
 
 
