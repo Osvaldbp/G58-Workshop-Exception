@@ -17,25 +17,26 @@ public class CSVReader_Writer {
     public static List<String> getMaleFirstNames() throws IOException {
 
         BufferedReader reader = null;
-        List <String> names = null;
+        List<String> names = null;
 
 
-        	try {
-                    reader = Files.newBufferedReader(Paths.get("firstname_males.txt"));
+        try {
+            reader = Files.newBufferedReader(Paths.get("firstname_males.txt"));
 
-                return reader.lines()
+            names = reader.lines()
                     .flatMap(line -> Stream.of(line.split(",")))
                     .collect(Collectors.toList());
 
-            } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             throw new FileNotFoundException("Error firstname_males.txt file not found");
         } catch (IOException e) {
-                throw new UncheckedIOException("Error reading firstname_males.txt file", e);
-            } finally {
-                if (reader != null) {
-                    reader.close();
-                }
+            throw new UncheckedIOException("Error reading firstname_males.txt file", e);
+        } finally {
+            if (reader != null) {
+                reader.close();
             }
+        }
+        return names;
     }
 
 
@@ -46,14 +47,15 @@ public class CSVReader_Writer {
      */
     public static List<String> getFemaleFirstNames() throws IOException {
 
-        List<String> names=null;
+        List<String> names = null;
 
-            BufferedReader reader = Files.newBufferedReader(Paths.get("firstname_female.txt"));
-                names = reader.lines()
-                        .flatMap(line -> Stream.of(line.split(",")))
-                        .collect(Collectors.toList());
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get("firstname_female.txt"))) {
 
-        return names;
+            return reader.lines()
+                    .flatMap(line -> Stream.of(line.split(",")))
+                    .collect(Collectors.toList());
+
+        }
     }
 
 
